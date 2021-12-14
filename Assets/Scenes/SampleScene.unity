@@ -2119,8 +2119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3763730db2037240b58e8e27581b73e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitClickObject: {fileID: 1580958416}
-  unitObjects:
+  unitActionObject: {fileID: 1580958416}
+  unitProdObjects:
   - {fileID: 2136989395}
   - {fileID: 647687667}
   - {fileID: 1301245504}
@@ -6486,7 +6486,7 @@ GameObject:
   - component: {fileID: 1580958418}
   - component: {fileID: 1580958421}
   m_Layer: 5
-  m_Name: ClickButton
+  m_Name: ActionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

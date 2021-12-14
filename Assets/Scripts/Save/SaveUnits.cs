@@ -13,8 +13,8 @@ public class SaveUnits : MonoBehaviour
     #if UNITY_EDITOR
     private void OnApplicationQuit()
     {
-        SaveSystem.SaveUnit(unitsData.UnitCost, unitsData.UnitLevel, unitsData.IsActivated);
-        SaveSystem.SaveUnitClick(unitsData.UnitClickCost, unitsData.UnitClickLevel);
+        SaveSystem.SaveUnit(unitsData.UnitProdCost, unitsData.UnitProdLevel, unitsData.IsActivated);
+        SaveSystem.SaveUnitClick(unitsData.UnitActionCost, unitsData.UnitActionLevel);
     }
 #else
     private void OnApplicationPause()

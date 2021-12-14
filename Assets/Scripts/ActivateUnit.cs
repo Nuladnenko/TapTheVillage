@@ -35,7 +35,7 @@ public class ActivateUnit : Activate
     {
         for (int i = 0; i < unitsData.UnitButtonLength; i++)
         {
-            bool a = unitsData.UnitCost[i] * 0.7f <= GameManager.Currency;
+            bool a = unitsData.UnitProdCost[i] * 0.7f <= GameManager.Currency;
             bool b = unitsData.UnitObjects[i].activeSelf == false;
             bool c = activatedObject.activeInHierarchy == false;
             if (a && b)

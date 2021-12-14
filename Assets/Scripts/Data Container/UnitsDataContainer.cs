@@ -3,22 +3,22 @@ using System.IO;
 
 public class UnitsDataContainer : MonoBehaviour   //Собирает и хранит всю информацию по Units
 {
-    [SerializeField] private GameObject unitClickObject;
-    [SerializeField] private GameObject[] unitObjects;
+    [SerializeField] private GameObject unitActionObject;
+    [SerializeField] private GameObject[] unitProdObjects;
 
-    private UnitButton[] unitButton;
-    private UnitClickButton unitClickButton;
+    private UnitButton[] unitProdButton;
+    private UnitActionButton unitActionButton;
     private string savePath;
 
     public GameObject[] UnitObjects
     {
-        get { return unitObjects; }
-        private set { unitObjects = value; }
+        get { return unitProdObjects; }
+        private set { unitProdObjects = value; }
     }
-    public float[] UnitCost { get; private set; }
-    public int[] UnitLevel { get; private set; }
-    public float UnitClickCost { get; private set; }
-    public int UnitClickLevel { get; private set; }
+    public float[] UnitProdCost { get; private set; }
+    public int[] UnitProdLevel { get; private set; }
+    public float UnitActionCost { get; private set; }
+    public int UnitActionLevel { get; private set; }
     public bool[] IsActivated { get; private set; }
     public int UnitButtonLength { get; private set; }
 
@@ -32,32 +32,32 @@ public class UnitsDataContainer : MonoBehaviour   //Собирает и хранит всю информ
         if (File.Exists(savePath))
             Load();
    
-        for (int i = 0; i < unitObjects.Length; i++)
-            unitButton[i] = unitObjects[i].GetComponent<UnitButton>();
-        unitClickButton = unitClickObject.GetComponent<UnitClickButton>();
+        for (int i = 0; i < unitProdObjects.Length; i++)
+            unitProdButton[i] = unitProdObjects[i].GetComponent<UnitButton>();
+        unitActionButton = unitActionObject.GetComponent<UnitActionButton>();
         GetButtonData();
         ActivateUnit.IsUnitActivated += ActivateButton;
     }
 
     private void SetArraySize()
     {
-        unitButton = new UnitButton[unitObjects.Length];
-        UnitCost = new float[unitObjects.Length];
-        UnitLevel = new int[unitObjects.Length];
-        IsActivated = new bool[unitObjects.Length];
+        unitProdButton = new UnitButton[unitProdObjects.Length];
+        UnitProdCost = new float[unitProdObjects.Length];
+        UnitProdLevel = new int[unitProdObjects.Length];
+        IsActivated = new bool[unitProdObjects.Length];
 
     }
 
     protected void GetButtonData()
     {
-        for (int i = 0; i < unitObjects.Length; i++)
+        for (int i = 0; i < unitProdObjects.Length; i++)
         {
-            UnitCost[i] = unitButton[i].Cost;
-            UnitLevel[i] = unitButton[i].Level;
+            UnitProdCost[i] = unitProdButton[i].Cost;
+            UnitProdLevel[i] = unitProdButton[i].Level;
         }
-        UnitClickCost = unitClickButton.Cost;
-        UnitClickLevel = unitClickButton.Level;
-        UnitButtonLength = unitObjects.Length;
+        UnitActionCost = unitActionButton.Cost;
+        UnitActionLevel = unitActionButton.Level;
+        UnitButtonLength = unitProdObjects.Length;
     }
     
     private void ActivateButton(int index)

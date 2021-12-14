@@ -17,11 +17,11 @@ public class GameManager : MonoBehaviour
     public static float Currency { get; private set; }         //главный ресурс игры
     [SerializeField] private float currencyPerClick;
 
-    public delegate void ClickOnSingleButton(float i, float y);         //для buttons, которые не передают index
-    public static ClickOnSingleButton ClickOnJohnyButton { get; private set; }
+    public delegate void ClickOnSingleButton(float multiplier, float cost);         //для buttons, которые не передают index
+    public static ClickOnSingleButton ClickOnUnitActionButton { get; private set; }
 
-    public delegate void ClickOnButton(float i, float y, int z);        //для buttons, которые передают index
-    public static ClickOnButton ClickOnUnitButton { get; private set; }
+    public delegate void ClickOnButton(float currencyPerSecMultiplier, float cost, int index);        //для buttons, которые передают index
+    public static ClickOnButton ClickOnUnitProdButton { get; private set; }
     public static ClickOnButton ClickOnUpgradeButton { get; private set; }
 
     public delegate void CurrencyChange();
@@ -48,8 +48,8 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-        ClickOnJohnyButton = ClickJohnyButton;
-        ClickOnUnitButton = ClickUnitButton;
+        ClickOnUnitActionButton = ClickUnitActionButton;
+        ClickOnUnitProdButton = ClickUnitProdButton;
         ClickOnUpgradeButton = ClickUpgradeButton;
         CurrencyClick = Click;
         if(File.Exists(Application.persistentDataPath + "/savefile.json"))
@@ -61,25 +61,25 @@ public class GameManager : MonoBehaviour
     private void Click()
     {
         Currency += currencyPerClick;
-        onCurrencyChange();
+        OnCurrencyChange();
     }
 
-    private void ClickJohnyButton(float multiplier, float cost)
+    private void ClickUnitActionButton(float multiplier, float cost)
     {
         currencyPerClick += multiplier;
         currencyPerClickText.text = currencyPerClick.ToString();
         Currency -= cost;
-        onCurrencyChange();
+        OnCurrencyChange();
     }
-    private void ClickUnitButton(float currencyPerSec, float cost, int i)
+    private void ClickUnitProdButton(float currencyPerSec, float cost, int i)
     {
         ResizeArrays(i);
         unitCurrencyPerSec[i] += currencyPerSec;
         ButtonClick(cost, i);
     }
-    private void ClickUpgradeButton(float upgradeOfCurrencyPerSec, float cost, int i)
+    private void ClickUpgradeButton(float currencyPerSecMultiplier, float cost, int i)
     {
-        this.upgradeOfCurrencyPerSec = upgradeOfCurrencyPerSec;
+        upgradeOfCurrencyPerSec = currencyPerSecMultiplier;
         ButtonClick(cost, i);
     }
     private void ButtonClick(float cost, int i)
@@ -87,11 +87,11 @@ public class GameManager : MonoBehaviour
         currencyPerSec[i] = unitCurrencyPerSec[i] * upgradeOfCurrencyPerSec;
         UnitCoroutineStart(i);
         Currency -= cost;
-        onCurrencyChange();
+        OnCurrencyChange();
         currencyPerSecText.text = $"vp/sec: {currencyPerSec.Sum()}";
     }
 
-    private void onCurrencyChange()    //нужно вызывать при каждом изменении currency
+    private void OnCurrencyChange()    //нужно вызывать при каждом изменении currency
     {
         currencyText.text = $"{(long)Currency} vp";
         OnCurrencyHasChanged();
@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             Currency += currencyPerSec[i];
-            onCurrencyChange();
+            OnCurrencyChange();
             //Debug.Log("Unit = " + currencyPerSec[i]);
         }
     }

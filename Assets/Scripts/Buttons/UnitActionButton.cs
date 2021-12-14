@@ -2,7 +2,7 @@ using UnityEngine;
 
 
 
-public class UnitClickButton : UnitButton
+public class UnitActionButton : UnitButton
 {
     [SerializeField] private float addedCurrency;
 
@@ -15,7 +15,7 @@ public class UnitClickButton : UnitButton
     {
         if (GameManager.Currency >= Cost)
         {
-            GameManager.ClickOnJohnyButton(addedCurrency, Cost);  //Set variables to delegate
+            GameManager.ClickOnUnitActionButton(addedCurrency, Cost);  //Set variables to delegate
             base.Click();
         }
     }

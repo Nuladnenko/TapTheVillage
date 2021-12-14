@@ -16,7 +16,7 @@ public class UnitProdButton : UnitButton
     {
         if (GameManager.Currency >= Cost)
         {
-            GameManager.ClickOnUnitButton(currencyPerSec, Cost, index);  //отправляет данные делегату в GameManager
+            GameManager.ClickOnUnitProdButton(currencyPerSec, Cost, index);  //отправляет данные делегату в GameManager
             base.Click();
             ActivateUpgrade.levelChange(index, Level);
         }
