@@ -199,7 +199,7 @@ MonoBehaviour:
   cost: 120
   costMultiplier: 2
   avatar: {fileID: 21300000, guid: 85d3833b5b609f6449244f0586d706f9, type: 3}
-  currencyMultiplier: 2
+  currencyPerSecMultiplier: 2
   indexOfUnit: 0
 --- !u!114 &14998995
 MonoBehaviour:
@@ -1958,7 +1958,7 @@ MonoBehaviour:
   cost: 110
   costMultiplier: 2
   avatar: {fileID: 21300000, guid: 85d3833b5b609f6449244f0586d706f9, type: 3}
-  currencyMultiplier: 2
+  currencyPerSecMultiplier: 2
   indexOfUnit: 0
 --- !u!114 &563589268
 MonoBehaviour:
@@ -2542,6 +2542,8 @@ GameObject:
   - component: {fileID: 843587819}
   - component: {fileID: 843587818}
   - component: {fileID: 843587822}
+  - component: {fileID: 843587823}
+  - component: {fileID: 843587824}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2648,11 +2650,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fc8f24442535054580ede0e82b35ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &843587823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843587817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f556891bfb128474a9d22f778099cadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   currencyText: {fileID: 1541918790}
   currencyPerSecText: {fileID: 869411968}
   currencyPerClickText: {fileID: 914473558}
-  currencyPerClick: 1
-  upgradeOfCurrencyPerSec: 1
+--- !u!114 &843587824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843587817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d71a911c687ed409d6626d530ffeb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &844755991
 GameObject:
   m_ObjectHideFlags: 0
@@ -6612,8 +6636,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: Johny
   descriptionText: Doing some stuff
-  cost: 10
-  costMultiplier: 1.9
+  cost: 1
+  costMultiplier: 1.1
   avatar: {fileID: 21300000, guid: 3b09691892ea3ae48a5b69eaa6136be1, type: 3}
   addedCurrency: 1
 --- !u!1 &1619380747
@@ -7029,7 +7053,7 @@ MonoBehaviour:
   cost: 100
   costMultiplier: 2
   avatar: {fileID: 21300000, guid: dcaa2320a885615479b7304783d3a4b3, type: 3}
-  currencyMultiplier: 2
+  currencyPerSecMultiplier: 2
   indexOfUnit: 0
 --- !u!114 &1670931816
 MonoBehaviour:

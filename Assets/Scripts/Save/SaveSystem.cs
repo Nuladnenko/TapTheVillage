@@ -9,32 +9,19 @@ public class SaveSystem
     public static SaveData data;
 
     //GAMEMANAGER
-    public static void SaveGame(float currency, float currencyPerClick, float[] currencyPerSec, float[] unitCurrencyPerSec, int[] coroutineStartTime)
+    public static void SaveGame(GameManager gameManager)
     {
         data = new SaveData();
         if (File.Exists(path))
-        {
-            oldData = Load(path);
-            data = oldData;
-
-            if(data.coroutineStartTime.Length < coroutineStartTime.Length)
-                System.Array.Resize(ref data.coroutineStartTime, coroutineStartTime.Length);  //изменить размер массива в случае, если новый сохраняемый массив больше старого
-
-            for (int i = 0; i < coroutineStartTime.Length; i++)
-            {
-                if (coroutineStartTime[i] == 0)
-                    data.coroutineStartTime[i] = oldData.coroutineStartTime[i];
-                else
-                    data.coroutineStartTime[i] = coroutineStartTime[i];
-            }
-        }
-        else
-            data.coroutineStartTime = coroutineStartTime;
-
-        data.savedCurrency = currency;
-        data.toSavedCurrency = currencyPerClick;
-        data.savedCurrencyPerSec = currencyPerSec;
-        data.savedUnitCurrencyPerSec = unitCurrencyPerSec;
+            data = Load(path);
+        data.coroutineStartTime = gameManager.CoroutineStartTime;
+        data.savedCurrency = GameManager.Currency;
+        data.toSavedCurrency = gameManager.CurrencyPerClick;
+        data.savedCurrencyPerSec = gameManager.CurrencyPerSec;
+        data.savedUpgradeOfCurrencyPerSec = gameManager.UpgradeOfCurrencyPerSec;
+        data.savedUnitCurrencyPerSec = gameManager.UnitCurrencyPerSec;
+        data.coroutineAppLaunchStartTime = gameManager.CoroutineAppLaunchStartTime;
+        data.coroutineStartIndex = gameManager.CoroutineStartIndex;
         Save(data, path);
     }
     public static SaveData LoadGame()

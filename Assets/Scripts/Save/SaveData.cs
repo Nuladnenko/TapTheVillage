@@ -10,8 +10,12 @@ public class SaveData
     public float toSavedCurrency;
     public float[] savedCurrencyPerSec;
     public float[] savedUnitCurrencyPerSec;
-    public int[] coroutineStartTime;
-     
+    public float[] savedUpgradeOfCurrencyPerSec;
+    public float[] coroutineStartTime;
+    public float[] coroutineAppLaunchStartTime;
+    public int[] coroutineStartIndex;
+
+
     public float unitClickCost;  //данные UnitClickButton
     public int unitClickLevel;
     //public string title;

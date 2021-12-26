@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class UpgradeButton : MainButton
 {
-    [SerializeField] private float currencyPerSecMultiplier;
+    [SerializeField] private int currencyPerSecMultiplier;
     [SerializeField] protected int indexOfUnit;
 
     protected override void Awake()
