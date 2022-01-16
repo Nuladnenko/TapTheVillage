@@ -22,6 +22,6 @@ public class SaveUpgrades : MonoBehaviour
 #endif
     private void Save()
     {
-        SaveSystem.SaveUpgrade(upgradesData.IsActivated);
+        SaveSystem.SaveUpgrade(upgradesData);
     }
 }

@@ -4,12 +4,11 @@ using UnityEngine.UI;
 public class UpgradeButton : MainButton
 {
     [SerializeField] private int currencyPerSecMultiplier;
-    [SerializeField] protected int indexOfUnit;
+    [SerializeField] protected int indexOfUpgUnit;
 
     protected override void Awake()
     {
         base.Awake();
-        //AssignText();
         button.onClick.AddListener(Click);
     }
 
@@ -17,7 +16,7 @@ public class UpgradeButton : MainButton
     {
         if (GameManager.Currency >= Cost)
         {
-            GameManager.ClickOnUpgradeButton(currencyPerSecMultiplier, Cost, indexOfUnit);  //Set variables to delegate
+            GameManager.ClickOnUpgradeProdButton(currencyPerSecMultiplier, Cost, indexOfUpgUnit);  //Set variables to delegate
             UpCost();
         }
     }

@@ -10,15 +10,15 @@ public class TextOnMainScreen : MonoBehaviour
 
     private GameManager gameManager;
 
-    private float oldCurrency;
-    private float oldCurrencyPerClick;
+    private double oldCurrency;
+    private double oldCurrencyPerClick;
     void Start()
     {
         gameManager = gameObject.GetComponent<GameManager>();
 
-        currencyText.text = $"{(long)GameManager.Currency} vp";
-        currencyPerSecText.text = $"vp/sec: {gameManager.CurrencyPerSec.Sum()}";
-        currencyPerClickText.text = gameManager.CurrencyPerClick.ToString();
+        currencyText.text = $"{NumberFormatter.FormatNumHunds(GameManager.Currency)} vp";
+        currencyPerSecText.text = $"vp/sec: {NumberFormatter.FormatNumTens(gameManager.CurrencyPerSec.Sum())}";
+        currencyPerClickText.text = NumberFormatter.FormatNumTens(gameManager.CurrencyPerClick);
 
         oldCurrency = GameManager.Currency;
         oldCurrencyPerClick = gameManager.CurrencyPerClick;
@@ -28,15 +28,15 @@ public class TextOnMainScreen : MonoBehaviour
 
     private void OnCurrencyChange()
     {
-        currencyText.text = $"{(long)GameManager.Currency} vp";
+        currencyText.text = $"{NumberFormatter.FormatNumHunds(GameManager.Currency)} vp";
         if (oldCurrency != GameManager.Currency)
         {
-            currencyPerSecText.text = $"vp/sec: {gameManager.CurrencyPerSec.Sum()}";
+            currencyPerSecText.text = $"vp/sec: {NumberFormatter.FormatNumTens(gameManager.CurrencyPerSec.Sum())}";
             oldCurrency = GameManager.Currency;
         }
         if (oldCurrencyPerClick != gameManager.CurrencyPerClick) 
         { 
-            currencyPerClickText.text = gameManager.CurrencyPerClick.ToString();
+            currencyPerClickText.text = NumberFormatter.FormatNumTens(gameManager.CurrencyPerClick);
             oldCurrencyPerClick = gameManager.CurrencyPerClick;
         }
     }

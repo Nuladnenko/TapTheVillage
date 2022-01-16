@@ -4,7 +4,7 @@ public class Activate : MonoBehaviour
 {
 
     [SerializeField] protected GameObject notification;
-    [SerializeField] protected GameObject activatedObject;  //родительский объект для активируемых Buttons
+    [SerializeField] protected GameObject activatedObject;  //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Buttons
 
     protected string savePath;
     public delegate void IsActivated(int index);

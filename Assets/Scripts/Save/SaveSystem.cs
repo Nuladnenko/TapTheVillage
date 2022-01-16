@@ -5,7 +5,7 @@ using System.IO;
 public class SaveSystem 
 {
     public static string path = Application.persistentDataPath + "/savefile.json";
-    public static SaveData oldData;    //нужен, чтобы заменить новые элементы массива на старые, если новые равны 0
+    public static SaveData oldData;    //пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ 0
     public static SaveData data;
 
     //GAMEMANAGER
@@ -30,7 +30,7 @@ public class SaveSystem
     }
 
     //JOHNY
-    public static void SaveUnitClick(float cost, int level)
+    public static void SaveUnitClick(double cost, int level)
     {
         data = new SaveData();
         if (File.Exists(path))
@@ -41,7 +41,7 @@ public class SaveSystem
     }
 
     //UNIT
-    public static void SaveUnit(float[] cost, int[] level, bool[] isActivated)
+    public static void SaveUnit(double[] cost, int[] level, bool[] isActivated)
     {
         data = new SaveData();
         if (File.Exists(path))
@@ -53,12 +53,13 @@ public class SaveSystem
     }
 
     //UPGRADE
-    public static void SaveUpgrade(bool[] isActivated)
+    public static void SaveUpgrade(UpgradesDataContainer upgradesDataContainer)
     {
         data = new SaveData();
         if (File.Exists(path))
             data = Load(path);
-        data.isUpgradeActivated = isActivated;
+        data.isUpgradeGroup1Activated = upgradesDataContainer.isGroup1Activated;
+        data.isUpgradeGroup2Activated = upgradesDataContainer.isGroup2Activated;
         Save(data, path);
     }
 

@@ -10,7 +10,7 @@ public class SaveUnits : MonoBehaviour
         unitsData = gameObject.GetComponent<UnitsDataContainer>();
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     private void OnApplicationQuit()
     {
         SaveSystem.SaveUnit(unitsData.UnitProdCost, unitsData.UnitProdLevel, unitsData.IsActivated);
@@ -19,8 +19,8 @@ public class SaveUnits : MonoBehaviour
 #else
     private void OnApplicationPause()
     {
-        SaveSystem.SaveUnit(unitsDataContainer.Cost, unitsDataContainer.Level, unitsDataContainer.IsActivated);
-        SaveSystem.SaveJohny(unitsDataContainer.UnitClickCost, unitsDataContainer.UnitClickLevel);
+        SaveSystem.SaveUnit(unitsData.UnitProdCost, unitsData.UnitProdLevel, unitsData.IsActivated);
+        SaveSystem.SaveUnitClick(unitsData.UnitActionCost, unitsData.UnitActionLevel);
     }
 #endif
 }

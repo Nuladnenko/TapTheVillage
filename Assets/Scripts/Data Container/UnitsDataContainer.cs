@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.IO;
 
-public class UnitsDataContainer : MonoBehaviour   //Собирает и хранит всю информацию по Units
+public class UnitsDataContainer : MonoBehaviour   //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Units
 {
     [SerializeField] private GameObject unitActionObject;
     [SerializeField] private GameObject[] unitProdObjects;
@@ -15,9 +15,9 @@ public class UnitsDataContainer : MonoBehaviour   //Собирает и хранит всю информ
         get { return unitProdObjects; }
         private set { unitProdObjects = value; }
     }
-    public float[] UnitProdCost { get; private set; }
+    public double[] UnitProdCost { get; private set; }
     public int[] UnitProdLevel { get; private set; }
-    public float UnitActionCost { get; private set; }
+    public double UnitActionCost { get; private set; }
     public int UnitActionLevel { get; private set; }
     public bool[] IsActivated { get; private set; }
     public int UnitButtonLength { get; private set; }
@@ -42,7 +42,7 @@ public class UnitsDataContainer : MonoBehaviour   //Собирает и хранит всю информ
     private void SetArraySize()
     {
         unitProdButton = new UnitButton[unitProdObjects.Length];
-        UnitProdCost = new float[unitProdObjects.Length];
+        UnitProdCost = new double[unitProdObjects.Length];
         UnitProdLevel = new int[unitProdObjects.Length];
         IsActivated = new bool[unitProdObjects.Length];
 

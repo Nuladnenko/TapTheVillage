@@ -5,13 +5,13 @@ using UnityEngine;
 public class ActivateUnit : Activate   
 {                                       
 
-    private UnitsDataContainer unitsData;
+    private UnitsDataContainer unitsDataCon;
     public static event IsActivated IsUnitActivated;
 
     private void Start()
     {
         savePath = Application.persistentDataPath + "/savefile.json";
-        unitsData = gameObject.GetComponent<UnitsDataContainer>();
+        unitsDataCon = gameObject.GetComponent<UnitsDataContainer>();
 
         CheckButtonState();
         GameManager.OnCurrencyHasChanged += Activate;
@@ -22,21 +22,21 @@ public class ActivateUnit : Activate
   
     private void CheckButtonState()
     {
-        for (int i = 0; i < unitsData.UnitObjects.Length; i++)
+        for (int i = 0; i < unitsDataCon.UnitObjects.Length; i++)
         {
-            if (unitsData.IsActivated[i])
-                unitsData.UnitObjects[i].SetActive(true);
+            if (unitsDataCon.IsActivated[i])
+                unitsDataCon.UnitObjects[i].SetActive(true);
             else
-                unitsData.UnitObjects[i].SetActive(false);
+                unitsDataCon.UnitObjects[i].SetActive(false);
         }
     }
 
     private void Activate()
     {
-        for (int i = 0; i < unitsData.UnitButtonLength; i++)
+        for (int i = 0; i < unitsDataCon.UnitButtonLength; i++)
         {
-            bool a = unitsData.UnitProdCost[i] * 0.7f <= GameManager.Currency;
-            bool b = unitsData.UnitObjects[i].activeSelf == false;
+            bool a = unitsDataCon.UnitProdCost[i] * 0.7f <= GameManager.Currency;
+            bool b = unitsDataCon.UnitObjects[i].activeSelf == false;
             bool c = activatedObject.activeInHierarchy == false;
             if (a && b)
             {

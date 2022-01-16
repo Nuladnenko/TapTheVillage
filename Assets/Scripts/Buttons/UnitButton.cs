@@ -31,8 +31,7 @@ public class UnitButton : MainButton
         textsTMP[3].text = "lv: " + Level.ToString();
     }
 
-    protected virtual void Load()
+    protected virtual void Load()       //need to load data before Awake method from MainButton
     {
-        //SaveData data = SaveSystem.Load(savePath);
     }
 }

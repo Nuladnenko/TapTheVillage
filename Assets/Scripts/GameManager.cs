@@ -8,20 +8,20 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    public static float Currency { get; private set; }          //главный ресурс игры
-    public float CurrencyPerClick { get; private set; }
-    private float[] currencyPerSec;
-    public float[] CurrencyPerSec {
+    public static double Currency { get; private set; }          //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    public double CurrencyPerClick { get; private set; }
+    private double[] currencyPerSec;
+    public double[] CurrencyPerSec {
         get { return currencyPerSec; }
         private set { currencyPerSec = value; }
     }
-    private float[] unitCurrencyPerSec;
-    public float[] UnitCurrencyPerSec {
+    private double[] unitCurrencyPerSec;
+    public double[] UnitCurrencyPerSec {
         get { return unitCurrencyPerSec; }
         private set { unitCurrencyPerSec = value; }
     }
-    private float[] upgradeOfCurrencyPerSec;
-    public float[] UpgradeOfCurrencyPerSec {
+    private double[] upgradeOfCurrencyPerSec;
+    public double[] UpgradeOfCurrencyPerSec {
         get { return upgradeOfCurrencyPerSec; }
         private set { upgradeOfCurrencyPerSec = value; }
     }
@@ -32,20 +32,24 @@ public class GameManager : MonoBehaviour
     }
     private float[] oldCoroutineStartTime;
 
-    public int[] CoroutineStartIndex { get; private set; }                          //массив, в который сохраняются индексы элементов сортируемого массива
-    public float[] CoroutineAppLaunchStartTime { get; private set; }                //массив, в который сохраняется время запуска следующей корутины относительно предыдущей
+    public int[] CoroutineStartIndex { get; private set; }                          //пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    public float[] CoroutineAppLaunchStartTime { get; private set; }                //пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
+    private int unitActionMult; 
 
-    public delegate void ClickOnSingleButton(float multiplier, float cost);         //для buttons, которые не передают index
+    public delegate void ClickOnSingleButton(float multiplier, double cost);         //пїЅпїЅпїЅ buttons, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ index
     public static ClickOnSingleButton ClickOnUnitActionButton { get; private set; }
+     public delegate void ClickOnSingleUpgradeButton(double cost);         //пїЅпїЅпїЅ buttons, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ index
+    public static ClickOnSingleUpgradeButton ClickOnUpgradeActionButton { get; private set; }
 
-    public delegate void ClickOnButton(float currencyPerSecMultiplier, float cost, int index);        //для buttons, которые передают index
-    public static ClickOnButton ClickOnUnitProdButton { get; private set; }
-    public static ClickOnButton ClickOnUpgradeButton { get; private set; }
+    public delegate void ClickOnUnitButton(double currencyPerSec, double cost, int index);        //пїЅпїЅпїЅ buttons, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ index
+    public static ClickOnUnitButton ClickOnUnitProdButton { get; private set; }
+    public delegate void ClickOnUpgradeButton(int currencyPerSecMultiplier, double cost, int index); 
+    public static ClickOnUpgradeButton ClickOnUpgradeProdButton { get; private set; }
 
     public delegate void CurrencyChange();
     public static CurrencyChange CurrencyClick { get; private set; }
-    public static event CurrencyChange OnCurrencyHasChanged;                  //При изменении currency запускает методы других классов, подписанные на это событие
+    public static event CurrencyChange OnCurrencyHasChanged;                  //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ currency пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private Coroutine[] unitCoroutine;
 
@@ -53,19 +57,21 @@ public class GameManager : MonoBehaviour
     private GameManager()
     {
         unitCoroutine = new Coroutine[1];
-        currencyPerSec = new float[1];
-        unitCurrencyPerSec = new float[1];
-        upgradeOfCurrencyPerSec = new float[1];
+        currencyPerSec = new double[1];
+        unitCurrencyPerSec = new double[1];
+        upgradeOfCurrencyPerSec = new double[1];
         coroutineStartTime = new float[1];
         Currency = 0;
         CurrencyPerClick = 1;
         upgradeOfCurrencyPerSec[0] = 1;
+        unitActionMult = 1;
     }
     private void Awake()
     {
         ClickOnUnitActionButton = ClickUnitActionButton;
         ClickOnUnitProdButton = ClickUnitProdButton;
-        ClickOnUpgradeButton = ClickUpgradeButton;
+        ClickOnUpgradeProdButton = ClickUpgradeButton;
+        ClickOnUpgradeActionButton = ClickUpgradeActionButton;
         CurrencyClick = ClickOnScreen;
 
         if(File.Exists(Application.persistentDataPath + "/savefile.json"))
@@ -79,13 +85,21 @@ public class GameManager : MonoBehaviour
         OnCurrencyHasChanged();
     }
 
-    private void ClickUnitActionButton(float multiplier, float cost)
+    private void ClickUnitActionButton(float multiplier, double cost)
     {
-        CurrencyPerClick += multiplier;
+        CurrencyPerClick += multiplier*unitActionMult;
+        Debug.Log(unitActionMult);
         Currency -= cost;
         OnCurrencyHasChanged();
     }
-    private void ClickUnitProdButton(float currencyPerSec, float cost, int index)
+    private void ClickUpgradeActionButton(double cost)
+    {
+        unitActionMult *=2;
+        CurrencyPerClick *= 2;
+        Currency -= cost;
+        OnCurrencyHasChanged();
+    }
+    private void ClickUnitProdButton(double currencyPerSec, double cost, int index)
     {
         if (unitCoroutine.Length <= index)
         {
@@ -99,12 +113,13 @@ public class GameManager : MonoBehaviour
         if (unitCoroutine[index] == null)
             UnitCoroutineStart(index);
     }
-    private void ClickUpgradeButton(float currencyPerSecMultiplier, float cost, int index)
+    private void ClickUpgradeButton(int currencyPerSecMultiplier, double cost, int index)
     {
         upgradeOfCurrencyPerSec[index] *= currencyPerSecMultiplier;
         ClickButton(cost, index);
     }
-    private void ClickButton(float cost, int index)
+    
+    private void ClickButton(double cost, int index)
     {
         currencyPerSec[index] = unitCurrencyPerSec[index] * upgradeOfCurrencyPerSec[index];
         Currency -= cost;
@@ -125,11 +140,11 @@ public class GameManager : MonoBehaviour
     private void UnitCoroutineStart(int i)
     {
         coroutineStartTime[i] = DateTime.Now.Millisecond;
-        coroutineStartTime[i] /= 1000;                              //конвертируем милисекунды в секунды
+        coroutineStartTime[i] /= 1000;                              //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         unitCoroutine[i] = StartCoroutine(UnitCoroutine(i)); 
     }
 
-    //private void UnitCoroutineStop(int i)           //этот метод понадобится, если буду вводить возможность продажи Unit и их кол-во будет == 0
+    //private void UnitCoroutineStop(int i)           //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Unit пїЅ пїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ == 0
     //{
     //    if (unitCoroutine[i] != null)
     //    {
@@ -147,7 +162,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Unit = " + currencyPerSec[i]);
         }
     }
-    private IEnumerator LaunchUnitCoroutines()                      //Запуск уже существующих корутинов при включении приложения
+    private IEnumerator LaunchUnitCoroutines()                      //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         for (int i = 0; i < CoroutineStartIndex.Length; i++)
         {
@@ -156,18 +171,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CalculatingUnitsLaunchTime()                        //расчет времени и порядка запуска корутиров при включении приложения
+    public void CalculatingUnitsLaunchTime()                        //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
-        float[] coroutineStartTimeSorting = (float[])CoroutineStartTime.Clone();     //сортируемый массив
-        float[] coroutineStartTimeSorted = new float[CoroutineStartTime.Length];     //массив, в который сохраняются данные посли сортировки
+        float[] coroutineStartTimeSorting = (float[])CoroutineStartTime.Clone();     //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        float[] coroutineStartTimeSorted = new float[CoroutineStartTime.Length];     //пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         CoroutineStartIndex = new int[CoroutineStartTime.Length];
         CoroutineAppLaunchStartTime = new float[CoroutineStartTime.Length];
 
         for (int i = 0; i < CoroutineStartTime.Length; i++)
         {
-            coroutineStartTimeSorted[i] = coroutineStartTimeSorting.Min();                                                               //находим наименьший элемент массива
-            CoroutineStartIndex[i] = Array.IndexOf(coroutineStartTimeSorting, coroutineStartTimeSorted[i]);                              //находим индекс наименьшего элемента
-            coroutineStartTimeSorting[CoroutineStartIndex[i]] = coroutineStartTimeSorting.Max() + coroutineStartTimeSorting.Min();       //делаем min элемент max, чтобы в следующих циклах этот элемент игнорировался
+            coroutineStartTimeSorted[i] = coroutineStartTimeSorting.Min();                                                               //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            CoroutineStartIndex[i] = Array.IndexOf(coroutineStartTimeSorting, coroutineStartTimeSorted[i]);                              //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            coroutineStartTimeSorting[CoroutineStartIndex[i]] = coroutineStartTimeSorting.Max() + coroutineStartTimeSorting.Min();       //пїЅпїЅпїЅпїЅпїЅпїЅ min пїЅпїЅпїЅпїЅпїЅпїЅпїЅ max, пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         }
 
         CoroutineAppLaunchStartTime[0] = coroutineStartTimeSorted[0];
@@ -195,8 +210,8 @@ public class GameManager : MonoBehaviour
     {
         SaveData data = SaveSystem.LoadGame();
 
-        unitCoroutine = new Coroutine[data.savedCurrencyPerSec.Length];  //восстановление размера массивов
-        unitCurrencyPerSec = new float[data.savedCurrencyPerSec.Length];
+        unitCoroutine = new Coroutine[data.savedCurrencyPerSec.Length];  //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        unitCurrencyPerSec = new double[data.savedCurrencyPerSec.Length];
         coroutineStartTime = new float[data.savedCurrencyPerSec.Length];
 
         Currency = data.savedCurrency;

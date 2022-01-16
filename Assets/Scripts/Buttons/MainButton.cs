@@ -6,8 +6,8 @@ public class MainButton : MonoBehaviour
 {
     [SerializeField] protected string titleText;
     [SerializeField] protected string descriptionText;
-    [SerializeField] protected float cost;
-    public float Cost
+    [SerializeField] protected double cost;
+    public double Cost
     {
         get { return cost; }
         protected set { cost = value; }
@@ -33,7 +33,7 @@ public class MainButton : MonoBehaviour
     {
         positiveColor = new Color(1, 1, 1);
         negativeColor = new Color(0.7f, 0.7f, 0.7f);
-        positiveTextColor = new Color(0.6f, 0.6f, 0.6f);
+        positiveTextColor = new Color(1f, 1f, 1f);
         negativeTextColor = new Color(0.2f, 0.2f, 0.2f);
         positiveCostTextColor = new Color(0.7f, 0.7f, 0.7f);
         negativeCostTextColor = new Color(0.5f, 0.1f, 0.1f);
@@ -60,14 +60,14 @@ public class MainButton : MonoBehaviour
         textsTMP = GetComponentsInChildren<TextMeshProUGUI>();
         textsTMP[0].text = titleText;
         textsTMP[1].text = descriptionText;
-        textsTMP[2].text = Cost.ToString();
+        textsTMP[2].text = NumberFormatter.FormatNumTens(Cost);
     }
     protected void UpCost()
     {
         Cost *= costMultiplier;
         Cost = (int)Cost;
 
-        textsTMP[2].text = Cost.ToString();
+        textsTMP[2].text = NumberFormatter.FormatNumTens(Cost);
     }
 
    
@@ -79,7 +79,7 @@ public class MainButton : MonoBehaviour
             for (int i=0; i < textsTMP.Length; i++)
             {
                 textsTMP[i].color = negativeTextColor;
-                if (i == 2)                                 //Меняет только цвет текста стоимости
+                if (i == 2)                                 //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     textsTMP[i].color = negativeCostTextColor;
             }
             avatarImage.color = negativeColor;
@@ -90,7 +90,7 @@ public class MainButton : MonoBehaviour
             for (int i = 0; i < textsTMP.Length; i++)
             {
                 textsTMP[i].color = positiveTextColor;
-                if (i == 2)                                 //Меняет только цвет текста стоимости
+                if (i == 2)                                 //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     textsTMP[i].color = positiveCostTextColor;
             }
             avatarImage.color = positiveColor;
