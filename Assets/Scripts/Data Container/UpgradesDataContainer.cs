@@ -4,7 +4,6 @@ using System.IO;
 public class UpgradesDataContainer : MonoBehaviour
 {
     [SerializeField] private GameObject[] upgradeObjectsGroup1;
-    
     [SerializeField] private GameObject[] upgradeObjectsGroup2;
     [SerializeField] private UnitsDataContainer unitDataContainer;
     private string savePath;
@@ -24,6 +23,9 @@ public class UpgradesDataContainer : MonoBehaviour
     public bool[] isGroup1Activated { get; private set; }
     public bool[] isGroup2Activated { get; private set; }
 
+    public delegate void Deactivate(int indexOfUpgUnit, int numberOfGroup);
+    public static Deactivate DeactivateUpg;
+
 
     private void Awake()
     {
@@ -37,6 +39,7 @@ public class UpgradesDataContainer : MonoBehaviour
         UnitButtonLength = unitDataContainer.UnitButtonLength;
         ActivateUpgrade.IsGroup1Activated += ActivateGroup1Button;
         ActivateUpgrade.IsGroup2Activated += ActivateGroup2Button;
+        DeactivateUpg = DeactivateButton;
     }
 
     private void ActivateGroup1Button(int index)
@@ -49,10 +52,19 @@ public class UpgradesDataContainer : MonoBehaviour
         UpgradeObjectsGroup2[index].SetActive(true);
         isGroup2Activated[index] = true;
     }
+    private void DeactivateButton(int indexOfUpgUnit, int numberOfGroup)
+    {
+        if(numberOfGroup == 1)
+            isGroup1Activated[indexOfUpgUnit]=false;
+        if(numberOfGroup == 2)
+            isGroup2Activated[indexOfUpgUnit]=false;
+        
+    }
     private void Load()
     {
         SaveData data = SaveSystem.Load(savePath);
         isGroup1Activated = data.isUpgradeGroup1Activated;
+        isGroup2Activated = data.isUpgradeGroup2Activated;
     }
 
     private void OnDestroy()

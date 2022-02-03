@@ -8,7 +8,7 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    public static double Currency { get; private set; }          //������� ������ ����
+    public static double Currency { get; private set; }       //main resourse of game
     public double CurrencyPerClick { get; private set; }
     private double[] currencyPerSec;
     public double[] CurrencyPerSec {
@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     public delegate void ClickOnSingleButton(float multiplier, double cost);         //��� buttons, ������� �� �������� index
     public static ClickOnSingleButton ClickOnUnitActionButton { get; private set; }
-     public delegate void ClickOnSingleUpgradeButton(double cost);         //��� buttons, ������� �� �������� index
+    public delegate void ClickOnSingleUpgradeButton(double cost);         //��� buttons, ������� �� �������� index
     public static ClickOnSingleUpgradeButton ClickOnUpgradeActionButton { get; private set; }
 
     public delegate void ClickOnUnitButton(double currencyPerSec, double cost, int index);        //��� buttons, ������� �������� index
@@ -140,11 +140,11 @@ public class GameManager : MonoBehaviour
     private void UnitCoroutineStart(int i)
     {
         coroutineStartTime[i] = DateTime.Now.Millisecond;
-        coroutineStartTime[i] /= 1000;                              //������������ ����������� � �������
+        coroutineStartTime[i] /= 1000;                              //convert to seconds
         unitCoroutine[i] = StartCoroutine(UnitCoroutine(i)); 
     }
 
-    //private void UnitCoroutineStop(int i)           //���� ����� �����������, ���� ���� ������� ����������� ������� Unit � �� ���-�� ����� == 0
+    //private void UnitCoroutineStop(int i)                         
     //{
     //    if (unitCoroutine[i] != null)
     //    {
@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Unit = " + currencyPerSec[i]);
         }
     }
-    private IEnumerator LaunchUnitCoroutines()                      //������ ��� ������������ ��������� ��� ��������� ����������
+    private IEnumerator LaunchUnitCoroutines()                      
     {
         for (int i = 0; i < CoroutineStartIndex.Length; i++)
         {
@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < CoroutineStartTime.Length - 1; i++)
             CoroutineAppLaunchStartTime[i + 1] = coroutineStartTimeSorted[i + 1] - coroutineStartTimeSorted[i];
     }
-    private bool CheckArraysEquality(float[] array1, float[] array2)
+    private bool CheckArraysEquality(in float[] array1, in float[] array2)
     {
         bool allElementsAreEqual = false;
         if (array1.Length == array2.Length)
@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviour
     {
         SaveData data = SaveSystem.LoadGame();
 
-        unitCoroutine = new Coroutine[data.savedCurrencyPerSec.Length];  //�������������� ������� ��������
+        unitCoroutine = new Coroutine[data.savedCurrencyPerSec.Length]; 
         unitCurrencyPerSec = new double[data.savedCurrencyPerSec.Length];
         coroutineStartTime = new float[data.savedCurrencyPerSec.Length];
 
@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
     private void OnApplicationPause()
     {
         if(!CheckArraysEquality(oldCoroutineStartTime,CoroutineStartTime)) 
-            CalculatingUnitsStartTime();
+            CalculatingUnitsLaunchTime();
     }
 #endif
 }

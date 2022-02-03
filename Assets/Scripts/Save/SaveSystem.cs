@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.IO;
+using System;
 
 
 public class SaveSystem 
 {
     public static string path = Application.persistentDataPath + "/savefile.json";
-    public static SaveData oldData;    //�����, ����� �������� ����� �������� ������� �� ������, ���� ����� ����� 0
     public static SaveData data;
 
     //GAMEMANAGER
@@ -30,7 +30,7 @@ public class SaveSystem
     }
 
     //JOHNY
-    public static void SaveUnitClick(double cost, int level)
+    public static void SaveUnitAction(double cost, int level)
     {
         data = new SaveData();
         if (File.Exists(path))
@@ -41,7 +41,7 @@ public class SaveSystem
     }
 
     //UNIT
-    public static void SaveUnit(double[] cost, int[] level, bool[] isActivated)
+    public static void SaveUnitProd(double[] cost, int[] level, bool[] isActivated)
     {
         data = new SaveData();
         if (File.Exists(path))
@@ -50,6 +50,54 @@ public class SaveSystem
         data.unitsLevel = level;
         data.isUnitActivated = isActivated;
         Save(data, path);
+    }
+    public static void SaveUnitProdState(int id)
+    {
+        data = new SaveData();
+        
+        if (File.Exists(path))
+            data = Load(path);
+        else
+            data.isUnitBought = new bool[]{};
+            
+        if (data.isUnitBought.Length<id+1)
+            Array.Resize(ref data.isUnitBought, id+1);
+
+        data.isUnitBought[id] = true;
+        Save(data, path);
+    }
+    public static void SaveUpgradeProdState(int id, int numberOfGroup)
+    {
+        data = new SaveData();
+        
+        if (File.Exists(path))
+            data = Load(path);
+        else
+        {
+            data.isUpgradeGroup1Bought = new bool[]{};
+            data.isUpgradeGroup2Bought = new bool[]{};
+        }
+
+        if (numberOfGroup==1)
+        {        
+            if(data.isUpgradeGroup1Bought.Length<=id)
+                Array.Resize(ref data.isUpgradeGroup1Bought, id+1);
+            if(data.isUpgradeGroup2Bought.Length!=0 && data.isUpgradeGroup2Bought[id]==true)
+                data.isUpgradeGroup1Bought[id] = false;
+            else 
+                data.isUpgradeGroup1Bought[id] = true;
+        }
+        if (numberOfGroup==2)
+        {
+            if(data.isUpgradeGroup2Bought.Length<=id)
+                Array.Resize(ref data.isUpgradeGroup2Bought, id+1);
+            if(data.isUpgradeGroup1Bought.Length!=0 && data.isUpgradeGroup1Bought[id]==true)
+                data.isUpgradeGroup1Bought[id] = false;
+            data.isUpgradeGroup2Bought[id] = true;
+            Debug.Log(data.isUpgradeGroup2Bought.Length);
+        }
+        Save(data, path);
+        
     }
 
     //UPGRADE

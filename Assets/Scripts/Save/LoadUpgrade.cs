@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LoadUpgrade : LoadMain
 {
+    [SerializeField] private int numberOfGroup;
     protected new void Start()
     {
         base.Start();
@@ -12,6 +13,9 @@ public class LoadUpgrade : LoadMain
     protected override void Load()
     {
         SaveData data = SaveSystem.Load(Application.persistentDataPath + "/savefile.json");
-        isActivated = data.isUpgradeGroup1Activated;
+        if(numberOfGroup==1)
+            isBought = data.isUpgradeGroup1Bought;
+        else if(numberOfGroup==2)
+            isBought = data.isUpgradeGroup2Bought;
     }
 }

@@ -9,10 +9,9 @@ public class LoadUnit : LoadMain
         base.Start();
     }
 
-    // Update is called once per frame
     protected override void Load()
     {
         SaveData data = SaveSystem.Load(Application.persistentDataPath + "/savefile.json");
-        isActivated = data.isUnitActivated;
+        isBought = data.isUnitBought;
     }
 }

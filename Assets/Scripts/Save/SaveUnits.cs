@@ -13,14 +13,14 @@ public class SaveUnits : MonoBehaviour
 #if UNITY_EDITOR
     private void OnApplicationQuit()
     {
-        SaveSystem.SaveUnit(unitsData.UnitProdCost, unitsData.UnitProdLevel, unitsData.IsActivated);
-        SaveSystem.SaveUnitClick(unitsData.UnitActionCost, unitsData.UnitActionLevel);
+        SaveSystem.SaveUnitProd(unitsData.UnitProdCost, unitsData.UnitProdLevel, unitsData.IsActivated);
+        SaveSystem.SaveUnitAction(unitsData.UnitActionCost, unitsData.UnitActionLevel);
     }
 #else
     private void OnApplicationPause()
     {
-        SaveSystem.SaveUnit(unitsData.UnitProdCost, unitsData.UnitProdLevel, unitsData.IsActivated);
-        SaveSystem.SaveUnitClick(unitsData.UnitActionCost, unitsData.UnitActionLevel);
+        SaveSystem.SaveUnitProd(unitsData.UnitProdCost, unitsData.UnitProdLevel, unitsData.IsActivated);
+        SaveSystem.SaveUnitAction(unitsData.UnitActionCost, unitsData.UnitActionLevel);
     }
 #endif
 }

@@ -21,8 +21,11 @@ public class SaveData
     public double[] unitsCost;  // UnitButton
     public int[] unitsLevel;
     public bool[] isUnitActivated;
+    public bool[] isUnitBought;
 
     public bool[] isUpgradeGroup1Activated;
     public bool[] isUpgradeGroup2Activated;
+    public bool[] isUpgradeGroup1Bought;
+    public bool[] isUpgradeGroup2Bought;
 
 }
